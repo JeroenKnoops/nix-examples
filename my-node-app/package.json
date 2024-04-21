@@ -1,0 +1,9 @@
+{
+  "name": "my-node-app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "cowsay": "^1.6.0"
+  }
+}

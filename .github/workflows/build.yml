@@ -1,0 +1,35 @@
+name: "Build"
+on:
+  pull_request:
+  push:
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.1.1
+      - uses: cachix/install-nix-action@v25
+        with:
+          nix_path: nixpkgs=channel:nixos-unstable
+
+      - name: "[rust] cargo test"
+        working-directory: rust
+        run: |
+          nix develop --command \
+            cargo test
+
+      - name: "[rust-pinned-cargo] cargo test"
+        working-directory: rust-pinned-cargo
+        run: |
+          nix develop --command \
+            cargo test
+
+      - name: "[my-java-app] Gradle"
+        working-directory: my-java-app
+        run: |
+          nix develop --command \
+            gradle run
+
+      - name: "[my-node-app] build"
+        working-directory: my-node-app
+        run: |
+          nix develop --command bash -c "tsc app.ts && node app.js"
